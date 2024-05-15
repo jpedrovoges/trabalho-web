@@ -1,0 +1,19 @@
+{
+  "name": "trabalho-web",
+  "version": "1.0.0",
+  "description": "Trabalho feito por João Pedro Voges (22103549) e Matheus Uliana Pissaia (22100917) para a matéria de Programação para Web dirigida pelo professor Ismael Seidel",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:frontend": "npm run dev --workspace=apps/frontend",
+    "dev:backend": "npm run dev --workspace=apps/backend"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": ["apps/*"]
+}
