@@ -1,20 +1,27 @@
 <template>
-    <div class="wrapper">
-        <from action="">
-            <h1 class="text-32 text-center font-600">
-                Register
-            </h1>
+    <div>
+        <h1 class="text-32 text-center font-600">
+            Register
+        </h1>
 
+        <form @submit.prevent>
             <div class="space-y-24 my-48">
-                <Input type="text" placeholder="Email" required icon="bx bxs-envelope" />
-                <Input type="text" placeholder="Username" required icon="bx bxs-user" />
+                <Input placeholder="Email" required icon="bx bxs-envelope" />
+                <Input placeholder="Username" required icon="bx bxs-user" />
                 <Input type="password" placeholder="Password" required icon="bx bxs-lock-alt" />
             </div>
 
-            <Button type="submit" class="w-full">
+            <Button class="w-full">
                 Create Account
             </Button>
-        </from>
+
+            <p class="text-14 text-center mt-20">
+                Already have an account?
+                <NuxtLink to="/login" class="font-600 hover:underline">
+                    Sign in
+                </NuxtLink>
+            </p>
+        </form>
     </div>
 </template>
 

@@ -1,22 +1,23 @@
 <template>
-    <div class="wrapper">
-        <from action="">
-            <h1 class="text-32 text-center font-600">
-                Reset password
-            </h1>
+    <div>
+        <h1 class="text-32 text-center font-600">
+            Reset password
+        </h1>
+
+        <form @submit.prevent>
             <div class="mt-48 mb-16">
                 <Input
-                    type="text"
+                    type="email"
                     placeholder="Email"
                     required
                     icon="bx bxs-envelope"
                 />
             </div>
 
-            <Button type="submit" class="w-full">
+            <Button class="w-full">
                 Send Code
             </Button>
-        </from>
+        </form>
     </div>
 </template>
 
