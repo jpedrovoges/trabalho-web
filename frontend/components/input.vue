@@ -7,10 +7,10 @@
             class="w-full h-48 p-20 bg-transparent border-2 border-gray-50 rounded-32
             outline-none placeholder:text-gray-400"
         >
-        <i
+        <Icon
             v-if="icon"
             class="absolute top-1/2 right-20 -translate-y-1/2 text-20"
-            :class="icon"
+            :icon-name="icon"
         />
     </div>
 </template>
