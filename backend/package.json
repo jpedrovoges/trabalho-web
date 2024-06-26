@@ -14,8 +14,11 @@
     "@japa/runner": "^2.5.1",
     "@ryze-blockchain/eslint-config": "^0.0.22",
     "@types/jsonwebtoken": "^9.0.6",
+    "@types/ffprobe-static": "^2.0.3",
+    "@types/fluent-ffmpeg": "^2.1.24",
     "@types/proxy-addr": "^2.0.3",
     "@types/source-map-support": "^0.5.10",
+    "@types/throttle": "^1.0.4",
     "@typescript-eslint/parser": "^6.13.2",
     "adonis-preset-ts": "^2.1.0",
     "eslint": "^8.54.0",
@@ -30,9 +33,13 @@
     "@adonisjs/repl": "^3.1.11",
     "jsonwebtoken": "^9.0.2",
     "luxon": "^3.4.4",
+    "sqlite3": "^5.1.7",
+    "@dropb/ffprobe": "^3.0.0",
+    "ffprobe-static": "^3.1.0",
     "proxy-addr": "^2.0.7",
     "reflect-metadata": "^0.2.2",
+    "socket.io": "^4.7.5",
     "source-map-support": "^0.5.21",
-    "sqlite3": "^5.1.7"
+    "throttle": "^1.0.3"
   }
 }

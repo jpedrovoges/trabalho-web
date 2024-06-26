@@ -23,6 +23,10 @@
             </Button>
         </nav>
 
-        <slot />
+        <div
+            class="flex items-center justify-center min-h-screen bg-home bg-cover bg-center px-[10%]"
+        >
+            <slot />
+        </div>
     </div>
 </template>
