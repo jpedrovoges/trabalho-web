@@ -7,12 +7,14 @@ export default class extends BaseSchema {
         this.schema.createTable(this.tableName, table => {
             table.increments('id')
 
-            table.string('username').notNullable().unique()
-            table.string('email').notNullable().unique()
+            table.string('email').notNullable()
+            table.string('username').notNullable()
             table.string('password').notNullable()
 
             table.timestamp('created_at', { useTz: true })
             table.timestamp('updated_at', { useTz: true })
+
+            table.unique(['email', 'username'])
         })
     }
 
