@@ -5,15 +5,11 @@ export const createUserSchema = schema.create({
         rules.email(),
         rules.unique({ table: 'users', column: 'email' }),
     ]),
-    username: schema.string([
-        rules.email(),
-        rules.unique({ table: 'users', column: 'username' }),
-    ]),
-    // TODO confirm password field?
-    password: schema.string(),
+    username: schema.string([rules.unique({ table: 'users', column: 'username' })]),
+    password: schema.string([rules.minLength(8)]), // TODO confirm password field?
 })
 
 export const loginSchema = schema.create({
-    username: schema.string([rules.exists({ table: 'users', column: 'username' })]),
+    email: schema.string([rules.exists({ table: 'users', column: 'email' })]),
     password: schema.string(),
 })

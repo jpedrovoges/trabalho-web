@@ -10,17 +10,15 @@ export default class UsersController {
             username,
         } = await request.validate({ schema: createUserSchema })
 
-        await UserService.createUser(email, password, username)
+        await UserService.register(email, username, password)
 
         return response.status(201)
     }
 
-    public async login({ request, response }: HttpContextContract) {
-        const { username, password } = await request.validate({ schema: loginSchema })
-
-        await UserService.login(username, password)
+    public async authenticate({ request }: HttpContextContract) {
+        const { email, password } = await request.validate({ schema: loginSchema })
 
         // TODO return JWT token
-        return response.status(200)
+        await UserService.authenticate(email, password)
     }
 }
