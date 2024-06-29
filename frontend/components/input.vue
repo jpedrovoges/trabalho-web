@@ -18,6 +18,8 @@
 <script setup lang="ts">
     import type { InputTypeHTMLAttribute } from 'vue'
 
+    defineModel<string>('modelValue')
+
     defineProps<{
         icon?: string
         type?: InputTypeHTMLAttribute
