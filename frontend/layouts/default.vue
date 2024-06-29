@@ -28,5 +28,7 @@
         >
             <slot />
         </div>
+
+        <TrackBar />
     </div>
 </template>
