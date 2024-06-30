@@ -1,6 +1,7 @@
+import Hash from '@ioc:Adonis/Core/Hash'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import User from 'App/Models/User'
 import { createUserSchema, loginSchema } from 'App/Schemas/user'
-import { UserService } from 'App/Services/UserService'
 
 export default class UsersController {
     public async create({ request, response }: HttpContextContract) {
@@ -10,15 +11,23 @@ export default class UsersController {
             username,
         } = await request.validate({ schema: createUserSchema })
 
-        await UserService.register(email, username, password)
+        await User.create({ email, username, password })
 
         return response.status(201)
     }
 
-    public async authenticate({ request }: HttpContextContract) {
+    public async authenticate({ request, response }: HttpContextContract) {
         const { email, password } = await request.validate({ schema: loginSchema })
 
-        // TODO return JWT token
-        await UserService.authenticate(email, password)
+        const user = await User.findByOrFail('email', email)
+
+        const passwordMatch = await Hash.verify(user.password, password)
+
+        if (!passwordMatch)
+            throw new Error('Invalid credentials')
+
+        const token = response.signJwt(user, { expiresIn: '10m' })
+
+        return response.send({ token })
     }
 }
