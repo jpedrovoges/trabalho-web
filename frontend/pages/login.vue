@@ -4,15 +4,25 @@
             Login
         </h1>
 
-        <form @submit.prevent>
-            <div class="space-y-24 my-48">
-                <Input placeholder="Username" icon="bx bxs-user" required />
+        <form @submit.prevent="submitAuthenticate">
+            <div class="space-y-24 mt-48">
+                <Input
+                    v-model="emailInput"
+                    placeholder="Email"
+                    type="email"
+                    icon="bx bxs-user"
+                    required
+                />
 
-                <Input placeholder="Password" type="password" icon="bx bxs-lock-alt" required />
+                <Input
+                    v-model="passwordInput"
+                    placeholder="Password"
+                    type="password"
+                    icon="bx bxs-lock-alt"
+                    required
+                />
 
-                <div class="flex justify-between items-center text-14">
-                    <label><input type="checkbox"> Remember Me</label>
-
+                <div class="text-14 text-right">
                     <NuxtLink
                         to="/forgot-password"
                         class="hover:underline"
@@ -22,7 +32,7 @@
                 </div>
             </div>
 
-            <Button class="w-full">
+            <Button class="w-full mt-24" :loading="pendingRequest">
                 Login
             </Button>
         </form>
@@ -38,4 +48,32 @@
 
 <script setup lang="ts">
     definePageMeta({ layout: 'login' })
+
+    const emailInput = ref('')
+    const passwordInput = ref('')
+    const pendingRequest = ref(false)
+
+    async function submitAuthenticate() {
+        pendingRequest.value = true
+
+        try {
+            const response = await $fetch<{ token: string }>(
+                useRuntimeConfig().public.baseApiUrl + '/session',
+                {
+                    method: 'POST',
+                    body: {
+                        email: emailInput.value,
+                        password: passwordInput.value,
+                    },
+                },
+            )
+
+            localStorage.setItem('jwt', response.token)
+        }
+        catch (error) {
+            console.log({ error })
+        }
+
+        pendingRequest.value = false
+    }
 </script>

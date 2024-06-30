@@ -4,11 +4,28 @@
             Register
         </h1>
 
-        <form @submit.prevent>
+        <form @submit.prevent="submitCreateUser">
             <div class="space-y-24 my-48">
-                <Input placeholder="Email" required icon="bx bxs-envelope" />
-                <Input placeholder="Username" required icon="bx bxs-user" />
-                <Input type="password" placeholder="Password" required icon="bx bxs-lock-alt" />
+                <Input
+                    v-model="emailInput"
+                    type="email"
+                    placeholder="Email"
+                    required
+                    icon="bx bxs-envelope"
+                />
+                <Input
+                    v-model="usernameInput"
+                    placeholder="Username"
+                    required
+                    icon="bx bxs-user"
+                />
+                <Input
+                    v-model="passwordInput"
+                    type="password"
+                    placeholder="Password"
+                    required
+                    icon="bx bxs-lock-alt"
+                />
             </div>
 
             <Button class="w-full">
@@ -27,4 +44,26 @@
 
 <script setup lang="ts">
     definePageMeta({ layout: 'login' })
+
+    const emailInput = ref('')
+    const usernameInput = ref('')
+    const passwordInput = ref('')
+
+    async function submitCreateUser() {
+        try {
+            await $fetch(useRuntimeConfig().public.baseApiUrl + '/users', {
+                method: 'POST',
+                body: {
+                    email: emailInput.value,
+                    username: usernameInput.value,
+                    password: passwordInput.value,
+                },
+            })
+
+            await navigateTo('/login')
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
 </script>
