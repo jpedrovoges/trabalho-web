@@ -1,6 +1,7 @@
 <template>
     <div class="relative">
         <input
+            v-model="modelValue"
             :placeholder="placeholder"
             :type="type"
             :required="required"
@@ -18,7 +19,7 @@
 <script setup lang="ts">
     import type { InputTypeHTMLAttribute } from 'vue'
 
-    defineModel<string>('modelValue')
+    const modelValue = defineModel<string>('modelValue')
 
     defineProps<{
         icon?: string

@@ -5,7 +5,7 @@
         </h1>
 
         <form @submit.prevent="submitAuthenticate">
-            <div class="space-y-24 my-48">
+            <div class="space-y-24 mt-48">
                 <Input
                     v-model="emailInput"
                     placeholder="Email"
@@ -22,9 +22,7 @@
                     required
                 />
 
-                <div class="flex justify-between items-center text-14">
-                    <label><input type="checkbox"> Remember Me</label>
-
+                <div class="text-14 text-right">
                     <NuxtLink
                         to="/forgot-password"
                         class="hover:underline"
@@ -34,7 +32,7 @@
                 </div>
             </div>
 
-            <Button class="w-full">
+            <Button class="w-full mt-24" :loading="pendingRequest">
                 Login
             </Button>
         </form>
@@ -53,23 +51,29 @@
 
     const emailInput = ref('')
     const passwordInput = ref('')
+    const pendingRequest = ref(false)
 
     async function submitAuthenticate() {
-        try {
-            // TODO get JWT token
-            const response = await $fetch<{ token: string }>(useRuntimeConfig().public.baseApiUrl + '/session', {
-                method: 'POST',
-                body: JSON.stringify({
-                    email: emailInput.value,
-                    password: passwordInput.value,
-                }),
-            })
+        pendingRequest.value = true
 
-            // TODO set JWT token into LocalStorage
-            localStorage.setItem('token', response.token)
+        try {
+            const response = await $fetch<{ token: string }>(
+                useRuntimeConfig().public.baseApiUrl + '/session',
+                {
+                    method: 'POST',
+                    body: {
+                        email: emailInput.value,
+                        password: passwordInput.value,
+                    },
+                },
+            )
+
+            localStorage.setItem('jwt', response.token)
         }
         catch (error) {
-            console.log(error)
+            console.log({ error })
         }
+
+        pendingRequest.value = false
     }
 </script>

@@ -53,14 +53,14 @@
         try {
             await $fetch(useRuntimeConfig().public.baseApiUrl + '/users', {
                 method: 'POST',
-                body: JSON.stringify({
+                body: {
                     email: emailInput.value,
                     username: usernameInput.value,
                     password: passwordInput.value,
-                }),
+                },
             })
 
-            console.log('User created successfully')
+            await navigateTo('/login')
         }
         catch (error) {
             console.log(error)
