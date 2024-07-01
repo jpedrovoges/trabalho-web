@@ -2,10 +2,12 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class EnsureAuthenticated {
     public async handle(
-        { request }: HttpContextContract,
-        next: () => Promise<void>
+        ctx: HttpContextContract,
+        next: () => Promise<void>,
     ) {
-        request.verifyJwt()
+        const user = ctx.request.verifyJwt()
+
+        ctx.user = user
 
         await next()
     }

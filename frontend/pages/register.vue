@@ -51,7 +51,7 @@
 
     async function submitCreateUser() {
         try {
-            await $fetch(useRuntimeConfig().public.baseApiUrl + '/users', {
+            await $fetch(useRuntimeConfig().public.baseApiUrl + '/user/create', {
                 method: 'POST',
                 body: {
                     email: emailInput.value,

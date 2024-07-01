@@ -24,5 +24,25 @@ Route.get('/', async () => {
     return { hello: 'world' }
 })
 
-Route.post('/users', 'UsersController.create')
-Route.post('/session', 'UsersController.authenticate')
+Route.group(() => {
+    Route.get('/:id', 'UsersController.getUser')
+    Route.post('/create', 'UsersController.create')
+    Route.post('/login', 'UsersController.authenticate')
+
+    Route.get('/check-authenticated', 'UsersController.checkAuthenticated')
+}).prefix('/user')
+
+Route.group(() => {
+    Route.get('/all', 'StationsController.all')
+
+    Route.group(() => {
+        Route.get('/my', 'StationsController.getStationByUserId')
+
+        Route.post('/create', 'StationsController.create')
+
+        Route.patch('/:id', 'StationsController.update')
+
+        Route.delete('/:id', 'StationsController.remove')
+    }).middleware('auth')
+
+}).prefix('/station')

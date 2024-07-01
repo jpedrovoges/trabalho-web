@@ -24,6 +24,6 @@
     }
 
     body {
-        @apply text-white;
+        @apply text-gray-50 bg-gray-950;
     }
 </style>
