@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-    import type { Station } from '~/types/station'
+    import type { Station } from '~/types'
 
     defineProps<{ station: Station }>()
 </script>

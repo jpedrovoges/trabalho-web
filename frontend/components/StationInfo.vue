@@ -16,25 +16,61 @@
             </Button>
         </div>
 
-        <p ref="description" class="mt-16" :contenteditable="editMode">
+        <p ref="description" class="mt-16 text-gray-400" :contenteditable="editMode">
             {{ station.description }}
         </p>
 
-        <!-- TODO add musica, ver playlist e editar -->
+        <div class="mt-64">
+            <div class="flex items-center justify-between">
+                <p class="text-18 font-600">
+                    Playlist
+                </p>
+
+                <Input placeholder="Pesquisar musicas" />
+            </div>
+
+            <ul class="mt-24 space-y-16">
+                <li
+                    v-for="(music, index) in playlist"
+                    :key="music.name"
+                    class="flex items-center gap-24 py-12 px-24
+                    bg-gray-900 border border-gray-800 rounded-8 hover:bg-gray-800"
+                >
+                    <span class="text-14 text-gray-400">{{ index + 1 }}</span>
+
+                    <img :src="music.image" class="size-64 rounded-8">
+
+                    <div>
+                        <p class="text-18 font-500">
+                            {{ music.name }}
+                        </p>
+                        <span class="text-14 text-gray-400">{{ music.artist }}</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
     import Heading from './Heading.vue'
     import { fetchAuthenticated } from '~/helpers/fetch-authenticated'
-    import type { Station } from '~/types/station'
+    import type { Music, Station } from '~/types'
 
+    const musics = inject<Ref<Music[]>>('musics')
     const props = defineProps<{ station: Station }>()
     const emit = defineEmits(['updateStation'])
 
     const editMode = ref(false)
     const name = ref<ComponentPublicInstance<typeof Heading>>()
     const description = ref<HTMLParagraphElement>()
+
+    const playlist = computed(() => {
+        if (!props.station.musicIds || !musics)
+            return []
+
+        return musics.value.filter(music => props.station.musicIds?.includes(music.id))
+    })
 
     async function toggleEdit() {
         if (!editMode.value || !name.value || !description.value)

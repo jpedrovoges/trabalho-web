@@ -4,7 +4,7 @@ import { createStationSchema, updateStationSchema } from 'App/Schemas/station'
 
 export default class StationsController {
     public async all() {
-        return Station.all()
+        return await Station.all()
     }
 
     public async getStationByUserId({ response, user }: HttpContextContract) {
@@ -30,6 +30,7 @@ export default class StationsController {
             description,
             image,
             name,
+            musicIds,
         } = await request.validate({ schema: createStationSchema })
 
         await Station.create({
@@ -38,6 +39,7 @@ export default class StationsController {
             image,
             name,
             creatorId: user.id,
+            musicIds,
         })
 
         return response.status(201)

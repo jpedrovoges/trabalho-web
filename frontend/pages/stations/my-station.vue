@@ -1,10 +1,10 @@
 <template>
-    <div class="p-[10%]">
+    <div class="max-w-[620px] mx-auto pt-[10%]">
         <template v-if="loadingStation">
             <i class="block text-48 text-center bx bx-loader-alt animate-spin" />
         </template>
 
-        <MyStationInfo v-else-if="station" :station="station" @update-station="getUserStation" />
+        <StationInfo v-else-if="station" :station="station" @update-station="getUserStation" />
 
         <template v-else>
             <Heading>
@@ -27,7 +27,7 @@
 <script setup lang="ts">
     import type { FetchError } from 'ofetch'
     import { fetchAuthenticated } from '~/helpers/fetch-authenticated'
-    import type { Station } from '~/types/station'
+    import type { RawStation, Station } from '~/types'
 
     const loadingStation = ref(false)
     const station = ref<Station | null>(null)
@@ -36,9 +36,16 @@
         loadingStation.value = true
 
         try {
-            const response = await fetchAuthenticated<{ station: Station }>('/station/my')
+            const response = await fetchAuthenticated<{ station: RawStation }>('/station/my')
 
-            station.value = response.station
+            const userStation = {
+                ...response.station,
+                musicIds: response.station.music_ids
+                    ? Array.from(response.station.music_ids.split(','), v => parseInt(v, 10))
+                    : [],
+            }
+
+            station.value = userStation
         }
         catch (e) {
             const error = e as FetchError

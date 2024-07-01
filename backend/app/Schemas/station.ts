@@ -8,6 +8,7 @@ export const createStationSchema = schema.create({
         rules.unique({ table: 'stations', column: 'frequency' }),
         rules.range(0.1, 999.9),
     ]),
+    musicIds: schema.array().members(schema.number()),
 })
 
 export const updateStationSchema = schema.create({
