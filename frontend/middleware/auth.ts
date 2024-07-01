@@ -11,7 +11,8 @@ export default defineNuxtRouteMiddleware(async () => {
         return navigateTo('/login')
 
     // TODO get when authentication expires to avoid calling this method every time
-    const { isAuthenticated } = await fetchAuthenticated<{ isAuthenticated: boolean }>('/user/check-authenticated')
+    const { isAuthenticated } =
+        await fetchAuthenticated<{ isAuthenticated: boolean }>('/session/check-authenticated')
 
     if (!isAuthenticated)
         return navigateTo('/login')
