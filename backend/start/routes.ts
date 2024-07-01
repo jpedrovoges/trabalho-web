@@ -28,4 +28,4 @@ Route.group(() => {
 }).prefix('/station')
 
 Route.get('/music', 'MusicController.index')
-Route.get('/stream', 'MusicController.stream')
+Route.get('/stream/:id', 'MusicController.stream')

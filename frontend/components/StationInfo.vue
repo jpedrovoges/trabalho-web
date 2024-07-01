@@ -14,6 +14,10 @@
                     :class="editMode ? 'bx-save' : 'bxs-edit-alt'"
                 />
             </Button>
+
+            <button class="ml-auto" @click="streamAudio">
+                <i class="bx bx-play-circle text-56 text-green-500" />
+            </button>
         </div>
 
         <p ref="description" class="mt-16 text-gray-400" :contenteditable="editMode">
@@ -21,13 +25,9 @@
         </p>
 
         <div class="mt-64">
-            <div class="flex items-center justify-between">
-                <p class="text-18 font-600">
-                    Playlist
-                </p>
-
-                <Input placeholder="Pesquisar musicas" />
-            </div>
+            <p class="text-18 font-600">
+                Playlist
+            </p>
 
             <ul class="mt-24 space-y-16">
                 <li

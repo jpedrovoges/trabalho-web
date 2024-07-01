@@ -19,15 +19,6 @@ export default class AppProvider {
     }
 
     public async ready() {
-        if (this.app.environment !== 'web')
-            return
-
-        const [{ TrackQueue }] = await Promise.all([
-            import('../app/Services/TrackQueue'),
-            import('../start/socket'),
-        ])
-
-        TrackQueue.loadTracks('tracks')
     }
 
     public async shutdown() {

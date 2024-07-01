@@ -30,8 +30,8 @@
             <input type="range" min="0" max="100" @input="setVolume">
         </div>
 
-        <audio ref="audioRef" autoplay>
-            <source src="http://localhost:3333/music" type="audio/mp3">
+        <audio ref="audioRef">
+            <source src="http://localhost:3333/stream/1" type="audio/mp3">
         </audio>
     </div>
 </template>

@@ -1,4 +1,4 @@
-import { extname, join } from 'path'
+import path, { extname, join } from 'path'
 import { readdir } from 'fs/promises'
 import { createReadStream, type ReadStream } from 'fs'
 import { ffprobe } from '@dropb/ffprobe'
@@ -21,17 +21,10 @@ export class TrackQueue {
     private _throttle: Throttle
     private _isPlaying = false
 
-    // TODO use global object to store tracks
-    private static _tracks: Track[] = []
+    private _tracks: Track[] = []
 
-    // TODO refactor since we can have multiple instances
-    private static _instance: TrackQueue
-
-    public static get instance() {
-        if (!TrackQueue._instance)
-            TrackQueue._instance = new TrackQueue()
-
-        return TrackQueue._instance
+    constructor(tracks: string[]) {
+        this.loadTracks(path.join(__dirname, '../../tracks'), tracks)
     }
 
     private _broadcast(chunk) {
@@ -55,10 +48,10 @@ export class TrackQueue {
 
     public getNextTrack() {
         // Loop back to the first track
-        if (this._currentIndex >= TrackQueue._tracks.length - 1)
+        if (this._currentIndex >= this._tracks.length - 1)
             this._currentIndex = 0
 
-        const track = TrackQueue._tracks[this._currentIndex++]
+        const track = this._tracks[this._currentIndex++]
 
         this._currentTrack = track
 
@@ -129,25 +122,23 @@ export class TrackQueue {
         return this._stream && this._throttle && this._currentTrack
     }
 
-    public static async loadTracks(dir: string): Promise<void> {
+    public async loadTracks(dir: string, filterTrackName?: string[]): Promise<void> {
         let filenames = await readdir(dir)
 
         filenames = filenames.filter(
-            filename => extname(filename) === '.mp3'
+            filename => extname(filename) === '.mp3' && filterTrackName?.includes(filename)
         )
 
         // Add directory name back to filenames
         const filepaths = filenames.map(filename => join(dir, filename))
 
-        TrackQueue._tracks = await Promise.all(filepaths.map(
+        this._tracks = await Promise.all(filepaths.map(
             async filepath => {
                 const bitrate = await TrackQueue.getTrackBitrate(filepath)
 
                 return { filepath, bitrate }
             }
         ))
-
-        console.log(`Loaded ${ TrackQueue._tracks.length } tracks`)
     }
 
     private static async getTrackBitrate(filepath: string): Promise<number> {

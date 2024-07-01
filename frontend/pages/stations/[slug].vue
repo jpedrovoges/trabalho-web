@@ -10,5 +10,5 @@
     const stations = inject<Ref<Station[]>>('stations')
     const { slug } = useRoute().params as unknown as { slug: string }
 
-    const station = stations?.value?.find(station => station.slug === slug)
+    const station = computed(() => stations?.value?.find(_station => _station.slug === slug))
 </script>

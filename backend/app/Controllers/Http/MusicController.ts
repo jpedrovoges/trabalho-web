@@ -1,17 +1,20 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { TrackQueue } from 'App/Services/TrackQueue'
 import Music from 'App/Models/Music'
+import { StationMusicService } from 'App/Services/StationMusicService'
 
 export default class MusicController {
     public async index() {
         return Music.all()
     }
 
-    public async stream({ response }: HttpContextContract) {
-        // TODO remove client on request closed
-        const { client, id } = TrackQueue.instance.addClient()
+    public async stream({ request, response }: HttpContextContract) {
+        const { id } = request.params()
 
-        TrackQueue.instance.play()
+        const trackQueue = await StationMusicService.getStationMusicQueue(id)
+
+        trackQueue.play()
+
+        const { client } = trackQueue.addClient()
 
         response
             .append('Content-Type', 'audio/mp3')

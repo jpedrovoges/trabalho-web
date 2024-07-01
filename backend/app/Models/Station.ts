@@ -25,7 +25,7 @@ export default class Station extends BaseModel {
     public creatorId: number
 
     @column()
-    public musicIds: number[]
+    public musicIds: string
 
     @column.dateTime({ autoCreate: true })
     public createdAt: DateTime

@@ -26,14 +26,16 @@
         useFetch<RawStation[]>(baseApi + '/station/all'),
     ])
 
-    provide('musics', musics)
-    provide('stations', (stations?.value ?? []).map(station => ({
+    const parsedStations = computed(() => (stations?.value ?? []).map(station => ({
         ...station,
         music_ids: undefined,
         musicIds: station.music_ids
             ? Array.from(station.music_ids.split(','), v => parseInt(v, 10))
             : [],
     })))
+
+    provide('musics', musics)
+    provide('stations', parsedStations)
 </script>
 
 <style>

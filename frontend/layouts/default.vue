@@ -23,9 +23,7 @@
             </Button>
         </nav>
 
-        <div
-            class="flex items-center justify-center min-h-screen bg-home bg-cover bg-center px-[10%]"
-        >
+        <div>
             <slot />
         </div>
 
