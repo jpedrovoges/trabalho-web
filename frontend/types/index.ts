@@ -4,4 +4,12 @@ export type Station = {
     slug: string
     description: string
     frequency: number
+    musicIds: number[]
+}
+
+export type Music = {
+    id: number
+    name: string
+    artist: string
+    image: string
 }
