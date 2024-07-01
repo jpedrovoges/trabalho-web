@@ -4,6 +4,10 @@ import User from 'App/Models/User'
 import { createUserSchema, loginSchema } from 'App/Schemas/user'
 
 export default class UsersController {
+    public async getUser({ request }: HttpContextContract) {
+        return User.query().where('id', request.params().id).first()
+    }
+
     public async create({ request, response }: HttpContextContract) {
         const {
             email,
@@ -29,5 +33,16 @@ export default class UsersController {
         const token = response.signJwt(user, { expiresIn: '10m' })
 
         return response.send({ token })
+    }
+
+    public checkAuthenticated({ request, response }: HttpContextContract) {
+        try {
+            request.verifyJwt()
+
+            return response.send({ isAuthenticated: true })
+        }
+        catch {
+            return response.send({ isAuthenticated: false })
+        }
     }
 }

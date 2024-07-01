@@ -81,8 +81,7 @@ export default {
         },
 
         borderRadius: {
-            10: '8px',
-            16: '16px',
+            8: '8px',
             32: '32px',
             full: '9999px',
         },

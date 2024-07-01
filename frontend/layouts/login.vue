@@ -15,7 +15,7 @@
 
         <div class="flex flex-col justify-center items-center h-screen bg-login bg-cover bg-center">
             <div
-                class="max-w-[420px] w-full p-32 border-2 border-gray-50 rounded-10 backdrop-blur-[20px] shadow-[0_0_10px_rgba(0,0,0,0.2)]"
+                class="max-w-[420px] w-full p-32 border-2 border-gray-50 rounded-8 backdrop-blur-[20px] shadow-[0_0_10px_rgba(0,0,0,0.2)]"
             >
                 <slot />
             </div>

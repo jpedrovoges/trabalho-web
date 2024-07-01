@@ -58,7 +58,7 @@
 
         try {
             const response = await $fetch<{ token: string }>(
-                useRuntimeConfig().public.baseApiUrl + '/session',
+                useRuntimeConfig().public.baseApiUrl + '/user/login',
                 {
                     method: 'POST',
                     body: {
@@ -69,6 +69,8 @@
             )
 
             localStorage.setItem('jwt', response.token)
+
+            await navigateTo('/stations')
         }
         catch (error) {
             console.log({ error })
