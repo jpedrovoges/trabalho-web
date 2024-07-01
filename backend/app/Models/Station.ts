@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, afterFind, beforeCreate, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
 import { string } from '@ioc:Adonis/Core/Helpers'
 
 export default class Station extends BaseModel {
@@ -24,11 +24,22 @@ export default class Station extends BaseModel {
     @column()
     public creatorId: number
 
+    @column()
+    public musicIds: number[]
+
     @column.dateTime({ autoCreate: true })
     public createdAt: DateTime
 
     @column.dateTime({ autoCreate: true, autoUpdate: true })
     public updatedAt: DateTime
+
+    @beforeSave()
+    public static stringifyMusicIds(station: Station) {
+        if (!station.$dirty.musicIds)
+            return
+
+        station.$dirty.musicIds = station.musicIds.toString()
+    }
 
     @beforeCreate()
     public static async slugify(station: Station) {

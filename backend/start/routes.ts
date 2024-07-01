@@ -28,9 +28,9 @@ Route.group(() => {
     Route.get('/:id', 'UsersController.getUser')
     Route.post('/create', 'UsersController.create')
     Route.post('/login', 'UsersController.authenticate')
-
-    Route.get('/check-authenticated', 'UsersController.checkAuthenticated')
 }).prefix('/user')
+
+Route.get('/session/check-authenticated', 'UsersController.checkAuthenticated')
 
 Route.group(() => {
     Route.get('/all', 'StationsController.all')
@@ -46,3 +46,5 @@ Route.group(() => {
     }).middleware('auth')
 
 }).prefix('/station')
+
+Route.get('/music', 'MusicController.index')

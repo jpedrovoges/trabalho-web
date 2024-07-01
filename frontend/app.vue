@@ -5,6 +5,8 @@
 </template>
 
 <script setup lang="ts">
+    import type { Music, RawStation } from './types'
+
     useHead({
         title: 'Home - SiN.music',
         link() {
@@ -16,6 +18,22 @@
             ]
         },
     })
+
+    const baseApi = useRuntimeConfig().public.baseApiUrl
+
+    const [{ data: musics }, { data: stations }] = await Promise.all([
+        useFetch<Music[]>(baseApi + '/music'),
+        useFetch<RawStation[]>(baseApi + '/station/all'),
+    ])
+
+    provide('musics', musics)
+    provide('stations', (stations?.value ?? []).map(station => ({
+        ...station,
+        music_ids: undefined,
+        musicIds: station.music_ids
+            ? Array.from(station.music_ids.split(','), v => parseInt(v, 10))
+            : [],
+    })))
 </script>
 
 <style>

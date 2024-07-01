@@ -6,7 +6,10 @@
             </Heading>
         </div>
 
-        <ul class="grid grid-cols-3 gap-24 mt-48">
+        <ul
+            v-if="stations"
+            class="grid grid-cols-3 gap-24 mt-48"
+        >
             <li
                 v-for="station in stations"
                 :key="station.name"
@@ -19,11 +22,7 @@
 </template>
 
 <script setup lang="ts">
-    import type { Station } from '~/types/station'
+    import type { Station } from '~/types'
 
-    const stations = computed(() => data.value?.length ? data.value : [])
-
-    const { data } = await useFetch<Station[]>(
-        useRuntimeConfig().public.baseApiUrl + '/station/all',
-    )
+    const stations = inject<Ref<Station[]>>('stations')
 </script>
