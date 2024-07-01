@@ -51,13 +51,19 @@ export default class StationsController {
             .where({ id, creatorId: user.id })
             .firstOrFail()
 
-        const { name, description, image } = await request.validate({ schema: updateStationSchema })
+        const {
+            name,
+            description,
+            image,
+            musicIds,
+        } = await request.validate({ schema: updateStationSchema })
 
         await station
             .merge({
                 name: name || station.name,
-                description: description || station.description,
-                image: image || station.image,
+                description,
+                image,
+                musicIds,
             }).save()
 
         return response.status(204)

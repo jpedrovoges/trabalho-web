@@ -13,6 +13,7 @@ export default class extends BaseSchema {
             table.string('image')
             table.integer('creator_id').unsigned().notNullable()
             table.decimal('frequency', 3, 1).unsigned().notNullable().unique()
+            table.string('music_ids')
 
             table.timestamp('created_at', { useTz: true })
             table.timestamp('updated_at', { useTz: true })

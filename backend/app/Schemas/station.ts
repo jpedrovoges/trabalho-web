@@ -14,4 +14,5 @@ export const updateStationSchema = schema.create({
     name: schema.string.optional(),
     description: schema.string.optional(),
     image: schema.string.optional(),
+    musicIds: schema.array.optional().members(schema.number()),
 })
