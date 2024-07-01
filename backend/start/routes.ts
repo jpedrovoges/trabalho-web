@@ -46,3 +46,5 @@ Route.group(() => {
     }).middleware('auth')
 
 }).prefix('/station')
+
+Route.get('/music', 'MusicController.index')
