@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, afterFind, beforeCreate, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeCreate, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
 import { string } from '@ioc:Adonis/Core/Helpers'
 
 export default class Station extends BaseModel {
@@ -25,7 +25,7 @@ export default class Station extends BaseModel {
     public creatorId: number
 
     @column()
-    public musicIds: string
+    public musicIds: number[]
 
     @column.dateTime({ autoCreate: true })
     public createdAt: DateTime
