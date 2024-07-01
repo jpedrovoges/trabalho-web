@@ -35,6 +35,9 @@ export default class Station extends BaseModel {
 
     @afterFind()
     public static formatMusicIds(station: Station) {
+        if (!station.$dirty.musicIds)
+            return
+
         const musicIdsString: string = station.$dirty.musicIds
 
         station.musicIds = Array.from(musicIdsString.split(','), v => parseInt(v, 10))
@@ -42,6 +45,9 @@ export default class Station extends BaseModel {
 
     @beforeSave()
     public static stringifyMusicIds(station: Station) {
+        if (!station.$dirty.musicIds)
+            return
+
         station.$dirty.musicIds = station.musicIds.toString()
     }
 
