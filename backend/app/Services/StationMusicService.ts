@@ -16,7 +16,7 @@ export class StationMusicService {
         if (!stationTrackQueue) {
             const musics = await Music
                 .query()
-                .whereIn('id', (station.musicIds as unknown as string).split(','))
+                .whereIn('id', station.$original.musicIds)
 
             const musicTracks = musics.map(music => music.file)
 

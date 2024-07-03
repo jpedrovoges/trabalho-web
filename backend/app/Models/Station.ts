@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, afterFetch, afterFind, beforeCreate, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
 import { string } from '@ioc:Adonis/Core/Helpers'
+import { parseMusicIds } from 'App/Helpers/parseMusicIds'
 
 export default class Station extends BaseModel {
     @column({ isPrimary: true })
@@ -32,6 +33,17 @@ export default class Station extends BaseModel {
 
     @column.dateTime({ autoCreate: true, autoUpdate: true })
     public updatedAt: DateTime
+
+    @afterFind()
+    public static async parseMusicIds(station: Station) {
+        parseMusicIds(station)
+    }
+
+    @afterFetch()
+    public static parseStationsMusicIds(stations: Station[]) {
+        for (const station of stations)
+            parseMusicIds(station)
+    }
 
     @beforeSave()
     public static stringifyMusicIds(station: Station) {

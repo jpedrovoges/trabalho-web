@@ -27,7 +27,7 @@
 <script setup lang="ts">
     import type { FetchError } from 'ofetch'
     import { fetchAuthenticated } from '~/helpers/fetch-authenticated'
-    import type { RawStation, Station } from '~/types'
+    import type { Station } from '~/types'
 
     const loadingStation = ref(false)
     const station = ref<Station | null>(null)
@@ -36,16 +36,9 @@
         loadingStation.value = true
 
         try {
-            const response = await fetchAuthenticated<{ station: RawStation }>('/station/my')
+            const response = await fetchAuthenticated<{ station: Station }>('/station/my')
 
-            const userStation = {
-                ...response.station,
-                musicIds: response.station.music_ids
-                    ? Array.from(response.station.music_ids.split(','), v => parseInt(v, 10))
-                    : [],
-            }
-
-            station.value = userStation
+            station.value = response.station
         }
         catch (e) {
             const error = e as FetchError

@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-    import type { Music, RawStation } from './types'
+    import type { Music, Station } from './types'
 
     useHead({
         title: 'Home - SiN.music',
@@ -23,19 +23,11 @@
 
     const [{ data: musics }, { data: stations }] = await Promise.all([
         useFetch<Music[]>(baseApi + '/music'),
-        useFetch<RawStation[]>(baseApi + '/station/all'),
+        useFetch<Station[]>(baseApi + '/station/all'),
     ])
 
-    const parsedStations = computed(() => (stations?.value ?? []).map(station => ({
-        ...station,
-        music_ids: undefined,
-        musicIds: station.music_ids
-            ? Array.from(station.music_ids.split(','), v => parseInt(v, 10))
-            : [],
-    })))
-
     provide('musics', musics)
-    provide('stations', parsedStations)
+    provide('stations', stations)
 </script>
 
 <style>
